@@ -37,3 +37,8 @@ export const isChecked = (index, event) => {
     event: event
   };
 };
+// export const asyncTest=()=>{
+//   return dispatch=>{
+//     fetch('url').then(res=>res.json()).then(data=>dispatch(getList(data)))
+//   }
+// }

@@ -1,25 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { deleteCart, addOne, deleteOne, isChecked } from "../store/action";
-import { store } from "../store/index";
+// import { store } from "../store/index";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { faPlusSquare, faMinusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { bindActionCreators } from "redux";
-import { useSelector } from "react-redux";
+
+import { useSelector, useStore } from "react-redux";
 
 function Cart(props) {
-  const [cartList, setCarList] = useState(store.getState().products.countList);
+  const products = useSelector(state => state.products);
+  const countList = useSelector(state => state.products.countList);
+
+  const store = useStore();
+  // const [cartList, setCarList] = useState(products.countList);
+  const [cartList, setCarList] = useState(JSON.parse(localStorage.getItem("trolley")));
   const [totalPrice, setTotalPrice] = useState((0 * 1).toFixed(2));
-  // const [isCheck, setCheck] = useState(false);
-  // const [singlePrice, setSinglePrice] = useState();
-  // const [list,setList]=useState(store.getState().cartList);
-  // const [count, setCount] = useState(store.getState().products.count);
+
+  // console.log(cartList);
+  // useEffect(() => {
+  //    setCarList(products.countList);
+  //   // setCarList(JSON.parse(localStorage.getItem("trolley")));
+  //   // loadStorage();
+
+  //   handTotalPrice();
+  // }, [cartList]);
   console.log(cartList);
   useEffect(() => {
-    setCarList(store.getState().products.countList);
+    // setCarList(products.countList);
+    // setCarList(JSON.parse(localStorage.getItem("trolley")));
+    // loadStorage();
+
     handTotalPrice();
   }, [cartList]);
+
+  function loadStorage() {
+    const value = localStorage.getItem("trolley");
+    if (value) {
+      setCarList(JSON.parse(value));
+    }
+  }
   const cart = cartList.map((item, index) => {
     return (
       <div key={index} style={{ display: "flex", justifyContent: "center" }}>
@@ -64,24 +84,36 @@ function Cart(props) {
     console.log(event.target.checked);
     console.log(index);
     store.dispatch(isChecked(index, event.target.checked));
-    console.log(store.getState().products.countList);
-    // setCheck(store.getState().products.countList[index].isChecked);
+    // dispatch(isChecked(index, event.target.checked));
+    console.log(products);
+    console.log(products.countList);
+    console.log("c" + countList);
     setCarList(store.getState().products.countList);
+    // setCarList(products.countList);
   }
   function hanleDelete(index) {
     console.log(index);
     store.dispatch(deleteCart(index));
+    // dispatch(deleteCart(index));
     setCarList(store.getState().products.countList);
+    // setCarList(products.countList);
   }
   function handleAdd(index) {
     console.log(index);
     store.dispatch(addOne(index));
+    // dispatch(addOne(index));
+    console.log(products);
     setCarList(store.getState().products.countList);
+    // setCarList(products.countList);
+    console.log(products.countList);
   }
   function handleMinus(index) {
     console.log(index);
     store.dispatch(deleteOne(index));
+    // dispatch(deleteOne(index));
     setCarList(store.getState().products.countList);
+    // setCarList(products.countList);
+    console.log(products.countList);
   }
   function handTotalPrice() {
     var totalMount = 0.0;

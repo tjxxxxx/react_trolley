@@ -9,6 +9,10 @@ const Products = [
     name: "axe",
     price: 190
   },
+  {
+    name: "Bandaex",
+    price: 562.13
+  },
 
   {
     name: "chises",

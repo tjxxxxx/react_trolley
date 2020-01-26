@@ -1,38 +1,39 @@
 import React, { useState, useEffect } from "react";
 import Products from "../mock/Products";
-import { Card } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import { store } from "../store/index";
-import { getList, addCart, addOne } from "../store/action";
+// import { Link } from "react-router-dom";
+// import { store } from "../store/index";
+import { getList, addCart } from "../store/action";
+import { useSelector, useDispatch } from "react-redux";
 // import { INIT_LIST, ADD_TO_CART } from "../store/types";
-const styleSheet = {
-  text: {
-    display: "flex"
-  },
-  card: {
-    width: "18rem"
-  }
-};
+// const styleSheet = {
+//   text: {
+//     display: "flex"
+//   },
+//   card: {
+//     width: "18rem"
+//   }
+// };
 function ShowProduct(props) {
   const [goods, setGoods] = useState([]);
-  // const [inCart, setInCart] = useState(false);
-  // console.log(product);
-  useEffect(() => {
-    console.log(store.getState());
-    store.dispatch(getList(Products));
-    setGoods(store.getState().products.productList);
+  const dispatch = useDispatch();
+  const products = useSelector(state => state.products);
 
-    console.log(store.getState().products.productList);
-    // store.subscribe(handleStoreChange);
+  useEffect(() => {
+    console.log(products);
+    // store.dispatch(getList(Products));
+    dispatch(getList(Products));
+    // store.dispatch(asyncTest);
+    // setGoods(store.getState().products.productList);
+    setGoods(products.productList);
+    console.log(products.productList);
   }, [goods]);
-  function handleStoreChange() {
-    //  更新state的状态
-  }
 
   const list = goods.map((product, index) => (
     <div key={index} style={{ margin: "20px" }}>
+      <Col xs={12} md={4} lg={4}></Col>
       <Card style={{ width: "18rem" }}>
         <Card.Body>
           <Card.Title>{product.name}</Card.Title>
@@ -50,19 +51,17 @@ function ShowProduct(props) {
     </div>
   ));
   function handlerClick(index) {
-    // console.log(inCart);
-    // if (inCart == false) {
-    store.dispatch(addCart(index));
-    // setInCart(true);
-    // } else {
-    // store.dispatch(addOne());
-    // }
-
+    // store.dispatch(addCart(index));
+    dispatch(addCart(index));
     console.log(index);
-
-    console.log(store.getState());
+    // console.log(store.getState());
+    console.log(products);
   }
 
-  return <div style={{ width: "auto", marginLeft: "auto", marginRight: "auto" }}>{list}</div>;
+  return (
+    <div style={{ width: "auto", marginLeft: "auto", marginRight: "auto" }}>
+      <Row>{list}</Row>
+    </div>
+  );
 }
 export default ShowProduct;

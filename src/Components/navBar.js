@@ -17,7 +17,7 @@ function NavBar(props) {
         </Nav>
         <Nav>
           <Link to="/cart">
-            <FontAwesomeIcon icon={faShoppingCart}></FontAwesomeIcon>
+            <FontAwesomeIcon  icon={faShoppingCart}></FontAwesomeIcon>
           </Link>
         </Nav>
       </Navbar.Collapse>
